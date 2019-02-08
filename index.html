@@ -1,0 +1,173 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<meta charset="utf-8">
+		<title>Calculator</title>
+	</head>
+	
+	<body>
+
+		<h1>Calculator</h1>
+		<h3>k1 ^ k + (k1 + 1) ^ k + ... + k2 ^ k</h3>
+
+
+
+		<form name="calculator">
+			<div class="form-box">
+				<label>K1</label>
+				<input name="start" placeholder="Введите k1" type="number" min="0">
+			</div>
+			<div class="form-box">
+				<label>K2</label>
+				<input name="end" placeholder="Введите k2" type="number" min="0">
+			</div>
+			<div class="form-box">
+				<label>K</label>
+				<input name="pow" placeholder="Введите k" type="number" min="0">
+			</div>
+		
+			<button type="button" class="btn btn-outline-success" onclick="getSum()">Calculate</button>
+
+			<div>
+				<label>Result</label>
+				<input name="result" value="0" type="text" disabled>
+			</div>
+		</form>
+
+		<script type="text/javascript">
+			function getSum() {
+
+				var start = document.getElementsByName('start')[0].value;
+				var end = document.getElementsByName('end')[0].value;
+				var pow = document.getElementsByName('pow')[0].value;
+
+				console.log(start, end, pow);
+
+				var sum = 0;
+				for (var i = start; i <= end; i++){
+					sum += Math.pow(i, pow);
+				}
+
+				document.getElementsByName('result')[0].value = sum;
+
+				return true;
+			}
+			var todos = [
+				{
+					"id": 1,
+					"name": "Learn JS",
+					"isDone": false,
+					"description": "test test test"
+				},
+				{
+					"id": 2,
+					"name": "Fuck Artem's mind",
+					"isDone": true
+				},{
+					"id": 3,
+					"name": "Love Mishka",
+					"isDone": true
+				}
+			];
+
+			/*
+            4.1 Создать функцию createTodo(name), которая будет создать новый элемент(далее я его везде называю Todo) в массиве todos.
+            поле id - это инкремент, берем максимальный id из todos  и прибавляем +1
+            name - будет передаваться в функцию, проверить что не пустое значение.
+            isDone - для нового TODO, всегда должен быть false. IsDone - означает , выполнено ли задание
+            добавить несколько todo в наш todos.
+            */
+
+			function createTodo(name) {
+
+				var todo = {};
+				todo['id'] = todos[todos.length - 1].id + 1;
+				todo['name'] = name;
+				todo['isDone'] = false;
+				todos.push(todo);
+			}
+
+			console.log(createTodo('погладить мишку'));
+			console.log(createTodo('погладить тему'));
+			console.log(createTodo('погладить дану'));
+
+			/*
+            Название: [todo,name], выполнено: [+ or -]
+            4.2 написать функцию , которая будет красиво выводить в консоль задачи:. showTodos(todos) - где todos - это передаваемый массив с todo
+            */
+
+			function showTodos(todos) {
+
+				/*
+                for (var i = 0; i < todos.length; i++) {
+                    console.log("Название: " + todos[i].name + ", выполнено: " + (todos[i].isDone ? " + " : " - ") );
+                }
+                */
+
+				todos.forEach(function(item){
+					console.log("Название: " + item.name + ", выполнено: " + (item.isDone ? " + " : " - "));
+				})
+			}
+
+			/*
+            4.3 Написать функицию getTodoByDone(isDone), которая вернут все выполененные задачи , если isDone = true, и все не выполенные если isDone - false. вывести результат этой функции с помощью showTodos(todos) - для двух случаев.
+            */
+
+			function getTodoByDone(isDone,todos){
+
+				var filteredTodos = todos.filter(function(item){
+
+					return item.isDone === isDone;
+				})
+
+				return filteredTodos;
+			}
+
+			showTodos(getTodoByDone(true, todos));
+			showTodos(getTodoByDone(false, todos));
+
+			/*
+            4.4 Написать функцию для редактирования todo в todos - editTodo(id, name, isDone) id - существующий id из todos, name - новое имя для существующей TODO. если name пустое, то не меняем его в TODO isDone - boolean , чтоб завершить или начать заново существующее Todo отредоктировать todo c ID - 1 и 3 вывести в консоль все todos с помощью showTodos(todos)
+            */
+
+			function editTodo(id,name,isDone) {
+
+				for(var i = 0; i < todos.length; i++){
+
+					if (todos[i].id === id) {
+
+						todos[i].isDone = isDone;
+
+						if (name){
+
+							todos[i].name = name;
+						}
+						break;
+					}
+				}
+
+				/*
+                todos.forEach(function(item,i){
+
+                  if (todos[i].id === id) {
+
+                    todos[i].isDone = isDone;
+
+                    if (name){
+
+                      todos[i].name = name;
+                    }
+
+                  }
+                })
+                */
+			}
+
+			editTodo(1,"write function",false);
+			editTodo(3,"",false);
+			showTodos(todos);
+
+		</script>
+
+	</body>
+</html>
